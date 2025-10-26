@@ -1,28 +1,8 @@
-import passport from "passport"
-import { Strategy as GoogleStrategy } from "passport-google-oauth20" 
+import { OAuth2Client } from "google-auth-library";
 
-function config() {
-    passport.serializeUser((user, done) => {
-        done(null, user);
-    });
+const googleOAuth = new OAuth2Client({
+  client_id: process.env.GOOGLE_CLIENT_ID,
+  client_secret: process.env.GOOGLE_CLIENT_SECRET
+});
 
-    passport.deserializeUser((user: Express.User, done) => {
-        done(null, user);
-    });
-
-    passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        callbackURL: "/auth/google/callback"
-    },
-    (accessToken, refreshToken, profile, done) => {
-        // Handle Google user
-        done(null, {
-            id: profile.id,
-            provider: "google",
-            email: profile.emails![0].value
-        });
-    }));
-}
-
-export default { config };
+export default googleOAuth;

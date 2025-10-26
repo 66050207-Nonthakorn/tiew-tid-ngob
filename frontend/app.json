@@ -3,11 +3,10 @@
     "name": "tiew-tid-ngob",
     "slug": "tiew-tid-ngob",
     "version": "1.0.0",
-    "scheme": "tiew-tid-ngob",
+    "scheme": "tiewtidngob",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "web": {
       "bundler": "metro",
@@ -16,7 +15,24 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/NunitoSans-Regular.ttf",
+            "./assets/fonts/NunitoSans-Light.ttf",
+            "./assets/fonts/NunitoSans-Bold.ttf",
+            "./assets/fonts/NunitoSans-SemiBold.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -35,21 +51,32 @@
     ],
     "ios": {
       "config": {
-        "googleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
+        "googleMapsApiKey": "AIzaSyAnzRwGVZoN1WwBJkr53Og2LA2Dj6M3fjs"
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.applentk.tiewtidngob"
     },
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": "process.env.GOOGLE_MAPS_API_KEY"
+          "apiKey": "AIzaSyAnzRwGVZoN1WwBJkr53Og2LA2Dj6M3fjs"
         }
       },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.applentk.tiewtidngob"
+      "package": "com.applentk.tiewtidngob",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "79369ee5-56b3-4104-9d02-de109cfde12c"
+      }
     }
   }
 }

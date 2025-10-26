@@ -6,27 +6,33 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prisma": "npx prisma"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d",
   "dependencies": {
-    "@prisma/client": "^6.17.0",
-    "@types/passport-google-oauth20": "^2.0.16",
+    "argon2": "^0.44.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
-    "tsx": "^4.20.6"
+    "google-auth-library": "^10.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "tsx": "^4.20.6",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@prisma/client": "^6.17.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
-    "@types/express-session": "^1.18.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.7.1",
-    "@types/passport": "^1.0.17",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/passport-google-oauth20": "^2.0.16",
     "prisma": "^6.17.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

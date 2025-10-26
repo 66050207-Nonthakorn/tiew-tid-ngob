@@ -1,0 +1,350 @@
+[
+  {
+    "legs": [
+      {
+        "distanceMeters": 4928,
+        "duration": "1464s",
+        "staticDuration": "1464s",
+        "polyline": {
+          "encodedPolyline": "ofxrAmbafRUu]EgCw@?QFeC@]GCDFMy@_@kD{CS]M_@E_@DgO@qHGYMSWS[KkCOw@OgA_@gAs@mMaMgByAkDeDeNcM]Ug@WkA[gHyAe@Q{@W}G}AoBg@cQgD{E}@c@GiCk@yE{@iB]aCkAQO{@a@mEoCaBkAeNuIoAu@uA}@{DeCGHAIp@b@KTD^SdA"
+        },
+        "startLocation": {
+          "latLng": {
+            "latitude": 13.727919499999999,
+            "longitude": 100.7723911
+          }
+        },
+        "endLocation": {
+          "latLng": {
+            "latitude": 13.756596199999999,
+            "longitude": 100.7977603
+          }
+        },
+        "steps": [
+          {
+            "distanceMeters": 609,
+            "staticDuration": "490s",
+            "polyline": {
+              "encodedPolyline": "ofxrAmbafRUu]EgC"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.727919499999999,
+                "longitude": 100.7723911
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.728062800000002,
+                "longitude": 100.7779848
+              }
+            },
+            "navigationInstruction": {
+              "maneuver": "DEPART",
+              "instructions": "มุ่งไปทางทิศ ตะวันออก ไปตาม ซอย ฉลองกรุง 1/ถ. ฉลองกรุง 1"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "0.6 กม."
+              },
+              "staticDuration": {
+                "text": "8 นาที"
+              }
+            },
+            "travelMode": "WALK"
+          },
+          {
+            "distanceMeters": 27,
+            "staticDuration": "24s",
+            "polyline": {
+              "encodedPolyline": "kgxrAkebfRw@?"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.728062800000002,
+                "longitude": 100.7779848
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.7283359,
+                "longitude": 100.7779757
+              }
+            },
+            "navigationInstruction": {
+              "maneuver": "TURN_LEFT",
+              "instructions": "เลี้ยวซ้าย เข้าสู่ ถ. ฉลองกรุง"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "27 ม."
+              },
+              "staticDuration": {
+                "text": "1 นาที"
+              }
+            },
+            "travelMode": "WALK"
+          },
+          {
+            "distanceMeters": 100,
+            "staticDuration": "83s",
+            "polyline": {
+              "encodedPolyline": "cixrAkebfRQFeC@]G"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.7283359,
+                "longitude": 100.7779757
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.7292469,
+                "longitude": 100.7779744
+              }
+            },
+            "navigationInstruction": {
+              "maneuver": "TURN_SLIGHT_LEFT",
+              "instructions": "เลี้ยวซ้ายเล็กน้อย เพื่อวิ่งบน ถ. ฉลองกรุง"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "0.1 กม."
+              },
+              "staticDuration": {
+                "text": "1 นาที"
+              }
+            },
+            "travelMode": "WALK"
+          },
+          {
+            "distanceMeters": 4083,
+            "staticDuration": "780s",
+            "polyline": {
+              "encodedPolyline": "}nxrAcebfRFMy@_@kD{CS]M_@E_@DgO@qHGYMSWS[KkCOw@OgA_@gAs@mMaMgByAkDeDeNcM]Ug@WkA[gHyAe@Q{@W}G}AoBg@cQgD{E}@c@GiCk@yE{@iB]aCkAQO{@a@mEoCaBkAeNuIoAu@uA}@{DeCGH"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.72927,
+                "longitude": 100.77794
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.75671,
+                "longitude": 100.79851000000001
+              }
+            },
+            "navigationInstruction": {
+              "instructions": "รถประจำทาง ไปยัง นิคมอุตสาหกรรมลาดกระบัง"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "4.1 กม."
+              },
+              "staticDuration": {
+                "text": "13 นาที"
+              }
+            },
+            "transitDetails": {
+              "stopDetails": {
+                "arrivalStop": {
+                  "name": "หลังแยกนิคมอุตสาหกรรมลาดกระบัง",
+                  "location": {
+                    "latLng": {
+                      "latitude": 13.75671,
+                      "longitude": 100.79851000000001
+                    }
+                  }
+                },
+                "arrivalTime": "2025-10-26T10:38:04Z",
+                "departureStop": {
+                  "name": "สจล. (สำนักงานอธิการบดี)",
+                  "location": {
+                    "latLng": {
+                      "latitude": 13.72927,
+                      "longitude": 100.77794
+                    }
+                  }
+                },
+                "departureTime": "2025-10-26T10:25:04Z"
+              },
+              "localizedValues": {
+                "arrivalTime": {
+                  "time": {
+                    "text": "17:38"
+                  },
+                  "timeZone": "Asia/Bangkok"
+                },
+                "departureTime": {
+                  "time": {
+                    "text": "17:25"
+                  },
+                  "timeZone": "Asia/Bangkok"
+                }
+              },
+              "headsign": "นิคมอุตสาหกรรมลาดกระบัง",
+              "headway": "1800s",
+              "transitLine": {
+                "agencies": [
+                  {
+                    "name": "THAI SMILE BUS",
+                    "phoneNumber": "+66 2 405 9789",
+                    "uri": "https://thaismilebus.com/"
+                  }
+                ],
+                "name": "3-25E EV (552 EV) : ปากน้ำ - นิคมอุตสาหกรรมลาดกระบัง (ทางด่วน)",
+                "color": "#000080",
+                "nameShort": "3-25E EV (552)",
+                "textColor": "#ffffff",
+                "vehicle": {
+                  "name": {
+                    "text": "รถประจำทาง"
+                  },
+                  "type": "BUS",
+                  "iconUri": "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png"
+                }
+              },
+              "stopCount": 9
+            },
+            "travelMode": "TRANSIT"
+          },
+          {
+            "distanceMeters": 34,
+            "staticDuration": "27s",
+            "polyline": {
+              "encodedPolyline": "oz}rA_fffRp@b@"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.7567237,
+                "longitude": 100.7985551
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.756470799999999,
+                "longitude": 100.7983764
+              }
+            },
+            "navigationInstruction": {
+              "maneuver": "DEPART",
+              "instructions": "มุ่งไปทางทิศ ตะวันตกเฉียงใต้ ไปตาม ถ. ฉลองกรุง"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "34 ม."
+              },
+              "staticDuration": {
+                "text": "1 นาที"
+              }
+            },
+            "travelMode": "WALK"
+          },
+          {
+            "distanceMeters": 75,
+            "staticDuration": "60s",
+            "polyline": {
+              "encodedPolyline": "}x}rA{dffRKTD^SdA"
+            },
+            "startLocation": {
+              "latLng": {
+                "latitude": 13.756470799999999,
+                "longitude": 100.7983764
+              }
+            },
+            "endLocation": {
+              "latLng": {
+                "latitude": 13.756596199999999,
+                "longitude": 100.7977603
+              }
+            },
+            "navigationInstruction": {
+              "maneuver": "TURN_RIGHT",
+              "instructions": "เลี้ยวขวา\nปลายทางจะอยู่ทางขวา"
+            },
+            "localizedValues": {
+              "distance": {
+                "text": "75 ม."
+              },
+              "staticDuration": {
+                "text": "1 นาที"
+              }
+            },
+            "travelMode": "WALK"
+          }
+        ],
+        "localizedValues": {
+          "distance": {
+            "text": "4.9 กม."
+          },
+          "duration": {
+            "text": "24 นาที"
+          },
+          "staticDuration": {
+            "text": "24 นาที"
+          }
+        },
+        "stepsOverview": {
+          "multiModalSegments": [
+            {
+              "stepStartIndex": 0,
+              "stepEndIndex": 2,
+              "navigationInstruction": {
+                "instructions": "เดินไปที่ สจล. (สำนักงานอธิการบดี)"
+              },
+              "travelMode": "WALK"
+            },
+            {
+              "stepStartIndex": 3,
+              "stepEndIndex": 3,
+              "navigationInstruction": {
+                "instructions": "รถประจำทาง ไปยัง นิคมอุตสาหกรรมลาดกระบัง"
+              },
+              "travelMode": "TRANSIT"
+            },
+            {
+              "stepStartIndex": 4,
+              "stepEndIndex": 5,
+              "travelMode": "WALK"
+            }
+          ]
+        }
+      }
+    ],
+    "distanceMeters": 4928,
+    "duration": "3264s",
+    "staticDuration": "3264s",
+    "polyline": {
+      "encodedPolyline": "ofxrAmbafRUu]EgCw@?QFeC@]GCDFMy@_@kD{CS]M_@E_@DgO@qHGYMSWS[KkCOw@OgA_@gAs@mMaMgByAkDeDeNcM]Ug@WkA[gHyAe@Q{@W}G}AoBg@cQgD{E}@c@GiCk@yE{@iB]aCkAQO{@a@mEoCaBkAeNuIoAu@uA}@{DeCGHAIp@b@KTD^SdA"
+    },
+    "viewport": {
+      "low": {
+        "latitude": 13.727919499999999,
+        "longitude": 100.7723911
+      },
+      "high": {
+        "latitude": 13.7567237,
+        "longitude": 100.79856459999999
+      }
+    },
+    "travelAdvisory": {
+      "transitFare": {}
+    },
+    "localizedValues": {
+      "distance": {
+        "text": "4.9 กม."
+      },
+      "duration": {
+        "text": "54 นาที"
+      },
+      "staticDuration": {
+        "text": "54 นาที"
+      },
+      "transitFare": {}
+    },
+    "routeLabels": [
+      "DEFAULT_ROUTE"
+    ]
+  }
+]

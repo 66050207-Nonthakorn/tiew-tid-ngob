@@ -24,3 +24,5 @@ android
 .metro-health-check*
 
 .env.*
+
+.idea

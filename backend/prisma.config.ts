@@ -1,6 +1,6 @@
 import path from "path"
 import dotenv from "dotenv"
-import type { PrismaConfig } from 'prisma'
+import type { PrismaConfig } from "prisma"
 
 dotenv.config();
 

@@ -1,43 +1,10 @@
-import { Tabs } from "expo-router";
-import Octicons from '@expo/vector-icons/Octicons';
+import { Stack } from "expo-router";
 
-export default function TabLayout() {
+export default function ProtectedLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          height: 75,
-          paddingTop: 8,
-        }
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color }: { color: string }) => (
-            <Octicons
-              name="home"
-              size={28}
-              color={color}
-            />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color }: { color: string }) => (
-            <Octicons
-              name="gear"
-              size={28}
-              color={color}
-            />
-          )
-        }}
-      />
-    </Tabs>
+    <Stack>
+      <Stack.Screen name="(main)" options={{ headerShown: false }} />
+      <Stack.Screen name="SearchResult" />
+    </Stack>
   );
 }

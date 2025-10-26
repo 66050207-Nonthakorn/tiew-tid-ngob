@@ -1,27 +1,47 @@
 import dotenv from "dotenv";
-import express from "express";
-import session from "express-session"
-import auth from "./config/auth";
-import router from "./routes/auth";
+import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
+
+import authRouter from "@/routes/auth";
+import userRouter from "@/routes/user";
+import planRouter from "@/routes/plan";
 
 dotenv.config({ override: true });
-auth.config();
 
 const app = express();
 
-app.use(session({
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false },
-}))
-app.use("/auth", router);
+// Middlewares
+app.use(express.json());
+app.use(cors());
 
+// Logging
+app.use((req, _, next) => {
+  console.log(`\n[${new Date().toISOString()}]: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// Health Check
 app.get("/", (_, res) => {
-    res.send("Hello From Tiew Tid Ngob's Backend");
+  res.send("Tiew Tid Ngob's backend is currently running");
+});
+
+// Routes
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/plan", planRouter);
+
+// Handle unknown path
+app.use((req, res) => {
+  res.status(404).send(`Cannot ${req.method} ${req.path}`);
+});
+
+// Handle error
+app.use((error: unknown, _: Request, res: Response, __: NextFunction) => {
+  const message = (error instanceof Error ? error.message : String(error));
+  res.status(500).json({ message: `Error ${message}` });
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
