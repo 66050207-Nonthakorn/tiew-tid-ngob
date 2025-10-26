@@ -7,7 +7,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "prisma": "npx prisma",
+    "prisma": "pnpm dlx prisma",
     "test": "jest"
   },
   "keywords": [],
