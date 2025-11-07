@@ -3,7 +3,7 @@ import { fetchProfile } from "@/lib/profile";
 import { useAuthStore } from "@/store/auth";
 import { Profile } from "@/types/user";
 import { useEffect, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfilePage() {

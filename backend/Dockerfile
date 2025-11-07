@@ -26,9 +26,6 @@ RUN pnpm prisma generate
 # Build the application (e.g., compile TypeScript)
 RUN pnpm build
 
-# Prune devDependencies to shrink node_modules
-RUN pnpm prune --prod
-
 #--------------------------------
 # Production Stage
 #--------------------------------
@@ -53,4 +50,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start application using the correct CMD form
-CMD ["/bin/sh", "-c", "pnpm prisma:deploy && pnpm start"]
+CMD ["pnpm prisma:deploy && pnpm start"]
