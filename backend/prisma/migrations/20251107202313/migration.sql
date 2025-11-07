@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE "Place" ADD COLUMN     "name" TEXT NOT NULL;
+ALTER TABLE "Place" ADD COLUMN     "name" TEXT;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Place_name_key" ON "Place"("name");
