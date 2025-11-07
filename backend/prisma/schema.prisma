@@ -49,6 +49,7 @@ model TripPlace {
 
 model Place {
   id            String          @id @default(uuid())
+  name          String          @unique
   latitude      Float           @default(0.0)
   longitude     Float           @default(0.0)
   googlePlaceId String?         @unique
