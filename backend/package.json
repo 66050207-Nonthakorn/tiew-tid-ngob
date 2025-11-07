@@ -26,11 +26,11 @@
     "module-alias": "^2.2.3",
     "morgan": "^1.10.1",
     "tsx": "^4.20.6",
-    "zod": "^4.1.12"
+    "zod": "^4.1.12",
+    "@prisma/client": "^6.17.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
-    "@prisma/client": "^6.17.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
