@@ -196,6 +196,7 @@ describe("Plan Routes", () => {
 
       const mockPlace = {
         id: "place-123",
+        name: "Test",
         googlePlaceId: validTripBody.places[0].googlePlaceId,
         latitude: validTripBody.places[0].latitude,
         longitude: validTripBody.places[0].longitude,

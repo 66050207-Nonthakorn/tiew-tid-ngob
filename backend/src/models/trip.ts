@@ -1,6 +1,7 @@
 import z from "zod";
 
 const zTripPlace = z.object({
+  name: z.string(),
   googlePlaceId: z.string(),
   startAt: z.iso.datetime(),
   endAt: z.iso.datetime(),

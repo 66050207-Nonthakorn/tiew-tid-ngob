@@ -118,6 +118,7 @@ async function createTripHistory(req: Request<{}, {}, CreateTripBody>, res: Resp
             googlePlaceId: placeData.googlePlaceId
           },
           create: {
+            name: placeData.name,
             googlePlaceId: placeData.googlePlaceId,
             latitude: placeData.latitude,
             longitude: placeData.longitude,
