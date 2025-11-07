@@ -7,12 +7,9 @@ pwd
 ls
 
 cd backend
-# build image
 docker build -t tiew-tid-ngob-backend .
 
 cd ../cluster_backend
-cd cluster_backend
-# build image
 docker build -t tiew-tid-ngob-cluster_backend .
 
 set +x
