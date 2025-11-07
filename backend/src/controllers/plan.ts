@@ -18,7 +18,7 @@ async function generatePlan(req: Request<{}, {}, GeneratePlanBody>, res: Respons
     const { clusters } = await clusterLatLng(latLngs);
     
     const plans = Object.entries(clusters).map(([_, location]) => location)
-    const planWithRoute = [];
+    const planWithRoutes = [];
 
     for (const plan of plans) {
       const points = plan.map((p) => ({
@@ -27,10 +27,15 @@ async function generatePlan(req: Request<{}, {}, GeneratePlanBody>, res: Respons
       }));
 
       const computedRoute = await calculateRoute(points);
-      planWithRoute.push((computedRoute as any).routes[0]);
+      const planWithRoute = {
+        placeNames: plan.map((place) => places[place.original_index].displayName), 
+        ...(computedRoute as any).routes[0]
+      }
+
+      planWithRoutes.push(planWithRoute);
     }
 
-    return res.status(200).json({ plans: planWithRoute });
+    return res.status(200).json({ plans: planWithRoutes });
   }
   catch (e) {
     console.error(e);
