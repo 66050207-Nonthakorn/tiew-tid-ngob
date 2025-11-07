@@ -21,6 +21,9 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Build the application (e.g., compile TypeScript)
+RUN pnpm prisma generate
+
+# Build the application (e.g., compile TypeScript)
 RUN pnpm build
 
 # Prune devDependencies to shrink node_modules
