@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import prisma from "@/config/database";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "../../dist/generated/prisma";
 import { CreateTripBody } from "@/models/trip";
 import { GeneratePlanBody } from "@/models/plan";
 import { calculateRoute, clusterLatLng, fetchNearbyPlaces } from "@/lib/plan";

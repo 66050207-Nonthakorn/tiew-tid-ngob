@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "../../dist/generated/prisma";
 
 const prisma = new PrismaClient({
   log: ["query", "info", "warn", "error"],
