@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "tiew-tid-ngob",
+    "name": "เที่ยวติดงบ",
     "slug": "tiew-tid-ngob",
     "version": "1.0.0",
-    "scheme": "tiewtidngob",
+    "scheme": "tiew-tid-ngob",
     "platforms": [
       "ios",
       "android"
@@ -11,10 +11,24 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "plugins": [
+      "expo-secure-store",
       "expo-router",
+      "expo-web-browser",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/icon.png",
+          "imageWidth": 200,
+          "dark": {
+            "image": "./assets/icon.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
       [
         "expo-font",
         {
@@ -32,7 +46,6 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
-      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -42,7 +55,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -54,7 +67,7 @@
         "googleMapsApiKey": "AIzaSyAnzRwGVZoN1WwBJkr53Og2LA2Dj6M3fjs"
       },
       "supportsTablet": true,
-      "bundleIdentifier": "com.applentk.tiewtidngob"
+      "bundleIdentifier": "com.applentk.tiew-tid-ngob"
     },
     "android": {
       "config": {
@@ -63,13 +76,14 @@
         }
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.applentk.tiewtidngob",
+      "package": "com.applentk.tiew_tid_ngob",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.INTERNET"
       ]
     },
     "extra": {

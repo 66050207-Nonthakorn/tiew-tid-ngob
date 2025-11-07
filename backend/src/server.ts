@@ -1,12 +1,13 @@
 import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import morgan from "morgan";
 
 import authRouter from "@/routes/auth";
 import userRouter from "@/routes/user";
 import planRouter from "@/routes/plan";
 
-dotenv.config({ override: true });
+dotenv.config({ override: true, quiet: true });
 
 const app = express();
 
@@ -15,10 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 // Logging
-app.use((req, _, next) => {
-  console.log(`\n[${new Date().toISOString()}]: ${req.method} ${req.originalUrl}`);
-  next();
-});
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 
 // Health Check
 app.get("/", (_, res) => {
@@ -26,9 +24,9 @@ app.get("/", (_, res) => {
 });
 
 // Routes
-app.use("/auth", authRouter);
-app.use("/user", userRouter);
-app.use("/plan", planRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/plan", planRouter);
 
 // Handle unknown path
 app.use((req, res) => {

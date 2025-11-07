@@ -1,3 +1,4 @@
+import "module-alias/register";
 import app from "@/server";
 
 const port = process.env.PORT || 3000;

@@ -1,5 +1,17 @@
 services:
+  nginx:
+    image: nginx:alpine
+    container_name: tiew-tid-ngob-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - cluster_backend
+
   db:
+    container_name: tiew-tid-ngob-db
     image: postgres:18
     ports:
       - "5433:5432"
@@ -7,6 +19,28 @@ services:
       - .env
     volumes:
       - pgdata:/var/lib/postgresql
+
+  backend:
+    image: tiew-tid-ngob-backend
+    container_name: tiew-tid-ngob-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override DATABASE_URL to use the docker network hostname (db)
+      - DATABASE_URL=postgresql://tiew-tid-ngob:ttnsocool69@db:5432/tiew-tid-ngob?schema=public
+      - CLUSTER_SERVER_URL=http://cluster_backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - cluster_backend
+
+  cluster_backend:
+    image: tiew-tid-ngob-cluster_backend
+    container_name: tiew-tid-ngob-cluster_backend
+    command: python main.py
+    ports:
+      - "8000:8000"
 
 volumes:
   pgdata:

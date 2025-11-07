@@ -1,7 +1,7 @@
-import MapView, { Callout, LatLng, Marker, PoiClickEvent, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Callout, LatLng, Marker, PoiClickEvent, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from 'react-native-maps-directions';
 import { Alert, Button, Linking, Pressable, StyleSheet } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { Children, useEffect, useRef, useState } from "react";
 
 import * as Location from 'expo-location';
 import { Text } from "../Text";
@@ -12,7 +12,11 @@ const bangkokLatLon = {
   longitude: 100.5018,  // Bangkok coordinates
 };
 
-export default function Maps() {
+interface MapsProps {
+  children?: React.ReactNode | React.ReactNode[]
+}
+
+export default function Maps({ children }: MapsProps) {
   const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
 
   const [poiName, setPoiName] = useState<string>("Empty");
@@ -73,11 +77,7 @@ export default function Maps() {
       style={StyleSheet.absoluteFill}
       onPoiClick={onPoiClick}
     >
-      {poiCoord &&
-        <Marker
-          coordinate={poiCoord}
-        />
-      }
+      {children}
     </MapView>
   );
 }

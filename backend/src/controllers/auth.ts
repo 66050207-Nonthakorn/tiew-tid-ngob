@@ -4,18 +4,26 @@ import jwt from "jsonwebtoken";
 
 import prisma from "@/config/database";
 import googleOAuth from "@/config/auth";
-import { GoogleAuthBody, UserAuthBody } from "@/models/auth";
+import { GoogleAuthBody, PasswordSignInBody, PasswordSignUpBody } from "@/models/auth";
 import { RefreshTokenBody } from "@/models/token";
 import { createJWT } from "@/lib/auth";
 
 async function passwordSignIn(req: Request, res: Response) {
-  const { email, password } = req.body as UserAuthBody;
+  const { emailOrName, password } = req.body as PasswordSignInBody;
 
   try {
     // Find user
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { email },
+    const users = await prisma.user.findMany({
+      where: {
+        OR: [
+          { name: { contains: emailOrName, mode: "insensitive" } },
+          { email: { contains: emailOrName, mode: "insensitive" } },
+        ],
+      },
     });
+
+    if (users.length === 0) throw new Error(); 
+    const user = users[0];
 
     // User login with Google, Facebook Auth instead
     if (!user.passwordHash) {
@@ -31,20 +39,14 @@ async function passwordSignIn(req: Request, res: Response) {
     // Create JWT
     const payload = {
       id: user.id,
-      email: user.email,
+      email: user.email!,
     };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {
-      expiresIn: "15m",
-    });
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, {
-      expiresIn: "4w",
-    });
+    const token = createJWT(payload);
 
     res.status(200).json({
       createdAt: user.createdAt,
-      accessToken,
-      refreshToken,
+      ...token
     });
   } catch (err) {
     res.status(401).json({ message: "Failed to sign in" });
@@ -52,7 +54,7 @@ async function passwordSignIn(req: Request, res: Response) {
 }
 
 async function passwordSignUp(req: Request, res: Response) {
-  const { name, email, password } = req.body as UserAuthBody;
+  const { email, name, password } = req.body as PasswordSignUpBody;
 
   try {
     // Create user
@@ -69,7 +71,8 @@ async function passwordSignUp(req: Request, res: Response) {
     });
 
     res.status(201).json({ message: "User created." });
-  } catch (err) {
+  }
+  catch (err) {
     res.status(400).json({ message: "Failed to sign up" });
   }
 }
@@ -83,7 +86,7 @@ async function googleAuth(req: Request, res: Response) {
 
     if (!payload) throw new Error();
 
-    const { sub: googleId, email, name } = payload;
+    const { sub: googleId, email, name = "" } = payload;
     let user = await prisma.user.findUnique({
       where: {
         googleId: googleId
@@ -103,7 +106,7 @@ async function googleAuth(req: Request, res: Response) {
     res.status(created ? 201 : 200).json({ createdAt: user.createdAt, ...token });
   }
   catch (e) {
-    res.status(400).json({ message: "Failed to sign in" });
+    res.status(401).json({ message: "Failed to authenticate with Google" });
   }
 }
 

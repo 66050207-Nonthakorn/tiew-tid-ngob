@@ -10,11 +10,11 @@ const fontByWeight: Record<FontWeight, string> =  {
   bold:     "NunitoSansBold"
 }
 
-interface Props extends ComponentProps<typeof NativeText> {
+interface TextProps extends ComponentProps<typeof NativeText> {
   weight?: FontWeight
 }
 
-export function Text({ weight = "regular", ...props }: Props) {
+export function Text({ weight = "regular", ...props }: TextProps) {
   return (
     <NativeText
       {...props}

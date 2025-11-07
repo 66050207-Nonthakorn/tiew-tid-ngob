@@ -7,6 +7,7 @@ import * as Location from 'expo-location';
 
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "@/store/auth";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,6 +19,7 @@ export default function RootLayout() {
     NunitoSansLight: require("@/assets/fonts/NunitoSans-Light.ttf"),
   });
 
+  const { accessToken } = useAuthStore();
   const [isLocationPermissionGranted, setIsLocationPermissionGranted] = useState(false);
 
   useEffect(() => {
@@ -41,11 +43,11 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <Stack screenOptions={{ headerShown: false }}>
       
-        <Stack.Protected guard={true}>
+        <Stack.Protected guard={!accessToken}>
           <Stack.Screen name="(auth)" />
         </Stack.Protected>
         
-        <Stack.Protected guard={true}>
+        <Stack.Protected guard={!!accessToken}>
           <Stack.Screen name="(protected)" />
         </Stack.Protected>
       

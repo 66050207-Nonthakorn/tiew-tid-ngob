@@ -24,7 +24,7 @@ export function verifyJwt(): RequestHandler {
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
 
-      req.user = decoded;
+      (req as any).user = decoded;
 
       next();
     }
