@@ -5,13 +5,13 @@ const zTripPlace = z.object({
   googlePlaceId: z.string(),
   startAt: z.iso.datetime(),
   endAt: z.iso.datetime(),
-  price: z.number().int().positive(),
+  price: z.number().int(),
   latitude: z.number(),
   longitude: z.number(),
 });
 
 export const zCreateTripBody = z.object({
-  totalPrice: z.number().int().positive(),
+  totalPrice: z.number().int(),
   startAt: z.iso.datetime(),
   endAt: z.iso.datetime(),
   places: z.array(zTripPlace),

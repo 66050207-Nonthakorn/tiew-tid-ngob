@@ -7,10 +7,11 @@ export async function fetchNearbyPlaces(midpoint: LatLng, radius: number = 2000)
       method: "POST",
       headers: {
         "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY!,
-        "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress,places.location"
+        "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress,places.location,places.types"
       },
       body: JSON.stringify({
         includedTypes: ["tourist_attraction", "museum", "park"],
+        languageCode: "th",
         locationRestriction: {
           circle: {
             center: midpoint,
@@ -35,10 +36,7 @@ export async function clusterLatLng(points: LatLng[]) {
       "Content-Type": "application/json"
     },
     method: "POST",
-    body: JSON.stringify({
-      locations: points,
-      n_clusters: 3
-    })
+    body: JSON.stringify({ locations: points })
   });
 
   const data = await response.json();
@@ -97,8 +95,6 @@ export async function calculateRoute(points: LatLng[]) {
   }
 
   return {
-    routes: [{
-      legs: segments.map(route => route.legs[0])
-    }]
+    legs: segments.map(route => route.legs[0])
   };
 }

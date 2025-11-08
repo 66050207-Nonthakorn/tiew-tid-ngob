@@ -6,7 +6,7 @@ export function validateBody(schema: z.ZodObject): RequestHandler {
   return (req, res, next) => {
     const parsed = schema.safeParse(req.body);
     if (parsed.error) {
-      return res.status(400).json({ message: "Invalid body" });
+      return res.status(400).json({ message: parsed.error.message });
     }
 
     next();
