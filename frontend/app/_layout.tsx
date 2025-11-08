@@ -19,7 +19,7 @@ export default function RootLayout() {
     NunitoSansLight: require("@/assets/fonts/NunitoSans-Light.ttf"),
   });
 
-  const { accessToken } = useAuthStore();
+  const { accessToken, refreshAccessToken } = useAuthStore();
   const [isLocationPermissionGranted, setIsLocationPermissionGranted] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,11 @@ export default function RootLayout() {
         setIsLocationPermissionGranted(true);
       }
     })();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    refreshAccessToken();
+  }, [refreshAccessToken]);
 
   useEffect(() => {
     if (isFontLoaded && isLocationPermissionGranted) {

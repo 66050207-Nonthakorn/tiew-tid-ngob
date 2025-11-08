@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/auth"
-import { Route } from "@/types/routes";
+import { Plan } from "@/types/plan";
 import { fetch } from "expo/fetch"
 import { LatLng } from "react-native-maps";
 
@@ -19,6 +19,6 @@ export async function fetchPlan(price: number, point: LatLng) {
     body: JSON.stringify({ price, latitude, longitude })
   });
 
-  const data = await response.json() as { plans: Route[] };
+  const data = await response.json() as { plans: Plan[] };
   return data.plans;
 }

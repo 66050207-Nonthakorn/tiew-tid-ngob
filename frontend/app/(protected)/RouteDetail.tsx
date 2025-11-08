@@ -1,9 +1,8 @@
-import { useRouteStore } from "@/store/route";
 import { decode } from "@googlemaps/polyline-codec";
 import { useMemo, useRef } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import MapView from "react-native-maps";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -12,48 +11,22 @@ import { Text } from "@/components/ui/Text";
 import Polyline from "@/components/ui/maps/Polyline";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { usePlanStore } from "@/store/plan";
+
+const lineColors = ["#00072d", "#0a2472", "#0e6ba8", "#001c55"];
 
 export default function RouteDetail() {
-  const { selectingRoute } = useRouteStore();
-  const leg = selectingRoute?.legs[0];
-  
+  const { selectingPlan } = usePlanStore();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const snapPoints = useMemo(() => ["25%", "90%"], []);
-  const initialRegion = useMemo(() => {
-    if (!leg?.steps?.length) return undefined;
 
-    // Get start and end points
-    const startPoint = leg.steps[0];
-    const endPoint = leg.steps[leg.steps.length - 1];
-    
-    const startLat = startPoint.startLocation?.latLng?.latitude;
-    const startLng = startPoint.startLocation?.latLng?.longitude;
-    const endLat = endPoint.endLocation?.latLng?.latitude;
-    const endLng = endPoint.endLocation?.latLng?.longitude;
+  if (!selectingPlan) {
+    return <Redirect href="/(protected)/SearchResult" />
+  }
 
-    if (!startLat || !startLng || !endLat || !endLng) return undefined;
-
-    // Calculate center point
-    const midLat = (startLat + endLat) / 2;
-    const midLng = (startLng + endLng) / 2;
-
-    // Calculate the distance between points
-    const latDelta = Math.abs(startLat - endLat);
-    const lngDelta = Math.abs(startLng - endLng);
-
-    // Add padding and ensure minimum zoom
-    const padding = 0.6; // 60% padding
-    const minDelta = 0.005; // Minimum zoom level
-
-    return {
-      latitude: midLat,
-      longitude: midLng,
-      latitudeDelta: Math.max(minDelta, latDelta * (1 + padding)),
-      longitudeDelta: Math.max(minDelta, lngDelta * (1 + padding))
-    };
-
-  }, [leg?.steps]);
+  const distance = selectingPlan.legs
+    .reduce((acc, leg) => acc + (leg.distanceMeters ?? 0), 0);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -65,22 +38,20 @@ export default function RouteDetail() {
           </Pressable>
         </SafeAreaView>
 
-        <MapView
-          style={StyleSheet.absoluteFill}
-          initialRegion={initialRegion}
-        >
-          {leg?.steps?.map((step, index) => 
-            <Polyline
-              key={index}
-              coordinates={decode(step.polyline?.encodedPolyline!, 5)
-                .map(([lat, lng]) => ({
-                  latitude: lat,
-                  longitude: lng
-                }))
-              }
-              strokeColor={step.transitDetails?.transitLine?.color ?? "#444444"}
-              travelMode={step.travelMode ?? "TRANSIT"}
-            />
+        <MapView style={StyleSheet.absoluteFill}>
+          {selectingPlan?.legs
+            ?.flatMap((leg) => leg.polyline?.encodedPolyline)
+            .map((line, index) => 
+              <Polyline
+                key={index}
+                coordinates={decode(line!, 5)
+                  .map(([lat, lng]) => ({
+                    latitude: lat,
+                    longitude: lng
+                  }))
+                }
+                strokeColor={lineColors[index % lineColors.length]}
+              />
           )}
         </MapView>
 
@@ -103,11 +74,8 @@ export default function RouteDetail() {
             </Text>
             
             <View className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-              <Text className="text-lg">
-                {leg?.localizedValues?.duration?.text ?? leg?.staticDuration ?? "-"}
-              </Text>
               <Text className="text-zinc-600">
-                {leg?.localizedValues?.distance?.text ?? `${leg?.distanceMeters ?? "-"} ม.`}
+                {(distance / 1000).toFixed(2)} km.
               </Text>
             </View>
 
@@ -115,12 +83,14 @@ export default function RouteDetail() {
               Step by Step
             </Text>
 
-            <View className="flex-col gap-4">
-              {leg?.steps
+            <View className="flex-col gap-2">
+              {selectingPlan?.legs
+                .flatMap((leg) => leg.steps?.flatMap((step) => step))
+                ?.filter((step) => step !== undefined)
                 ?.filter((step) => step.navigationInstruction?.instructions)
                 ?.map((step, index) => {
                 const duration = step.duration || "";
-                const distance = step.distanceMeters ? `${(step.distanceMeters / 1000).toFixed(1)} km` : "";
+                const distance = step.distanceMeters ? `${step.distanceMeters} m.` : "";
                 
                 if (step.travelMode === "TRANSIT") {
                   const transitDetails = step.transitDetails;
@@ -128,7 +98,7 @@ export default function RouteDetail() {
                   const isBus = vehicleType === "BUS";
                   
                   return (
-                    <View key={index} className="flex-row items-start gap-3 bg-white p-3 rounded-lg shadow-sm">
+                    <View key={index} className="flex-row items-start gap-3 bg-white p-3 rounded-lg border border-zinc-300">
                       <MaterialIcons 
                         name={isBus ? "directions-bus" : "train"}
                         size={24} 
@@ -150,9 +120,9 @@ export default function RouteDetail() {
                 }
 
                 return (
-                  <View key={index} className="flex-row items-start gap-3 bg-white p-3 rounded-lg shadow-sm">
+                  <View key={index} className="flex-row items-start gap-3 bg-white p-3 rounded-lg border border-zinc-300">
                     <MaterialCommunityIcons 
-                      name="walk" 
+                      name="car" 
                       size={24} 
                       color="#666666"
                     />
@@ -182,7 +152,7 @@ export default function RouteDetail() {
           }}
         >
           <Pressable 
-            onPress={() => router.push("/(protected)/Navigation")}
+            onPress={() => router.replace("/(protected)/Navigation")}
             className="bg-blue-500 rounded-xl px-4 py-3"
           >
             <Text weight="bold" className="text-white text-center text-lg">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { decode } from "@googlemaps/polyline-codec";
@@ -7,17 +7,20 @@ import { router } from "expo-router";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import * as Location from 'expo-location';
 
-import { useRouteStore } from "@/store/route";
 import { Text } from "@/components/ui/Text";
 import Polyline from "@/components/ui/maps/Polyline";
+import { Timer } from "@/lib/time";
+import { usePlanStore } from "@/store/plan";
 
 export default function Navigation() {
-  const { selectingRoute } = useRouteStore();
-  
+  const { selectingPlan } = usePlanStore();
+  const { setFinishedCheckpoints } = usePlanStore();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [userLocation, setUserLocation] = useState<Location.LocationObject | null>(null);
 
-  const leg = selectingRoute?.legs[0];
+  const timerRef = useRef(new Timer());
+  const [elapsedStr, setElapsedStr] = useState("");
+
+  const leg = selectingPlan?.legs[0];
   const currentStep = leg?.steps?.[currentStepIndex];
   const nextStep = leg?.steps?.[currentStepIndex + 1];
   const isLastStep = currentStepIndex === (leg?.steps?.length ?? 0) - 1;
@@ -29,41 +32,41 @@ export default function Navigation() {
       if (status !== 'granted') {
         return;
       }
-
-      // Start watching position
-      Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          distanceInterval: 10, // Update every 10 meters
-        },
-        (location) => {
-          setUserLocation(location);
-        }
-      );
     })();
   }, []);
 
+  useEffect(() => {
+    timerRef.current.start();
+    const interval = setInterval(() => {
+      setElapsedStr(timerRef.current.getElapsedFormatted());
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, []);
+  
+
   // Calculate the viewport to show current location and next waypoint
   const mapRegion = {
-    latitude: userLocation?.coords.latitude ?? currentStep?.startLocation?.latLng?.latitude ?? 13.7563,
-    longitude: userLocation?.coords.longitude ?? currentStep?.startLocation?.latLng?.longitude ?? 100.5018,
+    latitude: currentStep?.startLocation?.latLng?.latitude ?? 13.7563,
+    longitude: currentStep?.startLocation?.latLng?.longitude ?? 100.5018,
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   };
 
   const handleNextStep = () => {
+    timerRef.current.checkpoint();
+
     if (!isLastStep) {
       setCurrentStepIndex(prev => prev + 1);
     }
-  };
-
-  const handlePreviousStep = () => {
-    if (currentStepIndex > 0) {
-      setCurrentStepIndex(prev => prev - 1);
+    else {
+      timerRef.current.pause();
+      setFinishedCheckpoints(timerRef.current.getCheckpoints());
+      router.replace("/(protected)/TripSummary");
     }
   };
 
-  if (!selectingRoute) {
+  if (!selectingPlan) {
     router.back();
     return null;
   }
@@ -113,13 +116,15 @@ export default function Navigation() {
       </MapView>
 
       <SafeAreaView className="absolute top-0 left-0 right-0 z-10">
-        <View className="flex-row items-center justify-between px-4 py-2 bg-white/80">
+        <View className="flex-row items-center justify-between px-4 py-2">
           <Pressable onPress={() => router.back()} className="p-2">
             <Text>
               <Ionicons name="arrow-back" size={24} />
             </Text>
           </Pressable>
-          <Text weight="semibold" className="text-lg">Navigation</Text>
+          <Text weight="bold" className="text-lg">
+            Navigation
+          </Text>
           <View style={{ width: 40 }} />
         </View>
       </SafeAreaView>
@@ -167,22 +172,21 @@ export default function Navigation() {
             </>
           )}
 
+          <View>
+            <Text>{elapsedStr}</Text>
+          </View>
+
           <View className="flex-row justify-between mt-4">
             <Pressable
-              onPress={handlePreviousStep}
-              disabled={currentStepIndex === 0}
-              className={`px-4 py-2 rounded-lg ${currentStepIndex === 0 ? 'opacity-50' : ''}`}
-            >
-              <Text>Previous</Text>
-            </Pressable>
-            <Pressable
               onPress={handleNextStep}
-              disabled={isLastStep}
-              className={`px-4 py-2 rounded-lg bg-blue-500 ${isLastStep ? 'opacity-50' : ''}`}
+              className={`px-4 py-2.5 rounded-lg bg-blue-500 w-full items-center ${isLastStep ? "bg-blue-900" : ""}`}
             >
-              <Text className="text-white">Next Step</Text>
+              <Text weight="semibold" className="text-white text-lg">
+                {isLastStep ? "Finish" : "Next"}
+              </Text>
             </Pressable>
           </View>
+
         </View>
       </View>
     </View>

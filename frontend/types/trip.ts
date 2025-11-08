@@ -2,15 +2,20 @@ export interface Trip {
   totalPrice: number,
   startAt: string,
   endAt: string,
-  rating: number,
+  rating: number | null,
   places: TripPlace[],
 }
 
 export interface TripPlace {
-  googlePlaceId: string,
   startAt: string,
   endAt: string,
   price: number,
+  place: Place
+}
+
+export interface Place {
+  name: string,
   latitude: number,
   longitude: number,
+  googlePlaceId: string
 }

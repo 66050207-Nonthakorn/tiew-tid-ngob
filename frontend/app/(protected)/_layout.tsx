@@ -12,11 +12,12 @@ export default function ProtectedLayout() {
         name="index"
         options={{
           title: "Tiew Tid Ngob",
+          headerBackVisible: false,
           headerRight: () => (
             <Link href="/(protected)/Profile">
               <Ionicons
                 name="person-circle-outline"
-                size={32}
+                size={36}
               />
             </Link>
           )
@@ -25,7 +26,8 @@ export default function ProtectedLayout() {
       <Stack.Screen
         name="SearchResult"
         options={{
-          title: "Search result"
+          title: "Search result",
+          headerShown: false
         }}
       />
       <Stack.Screen
@@ -37,7 +39,11 @@ export default function ProtectedLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="HistoryDetail"
+        name="TripSummary"
+        options={{
+          title: "Trip summary",
+          headerBackVisible: false
+        }}
       />
     </Stack>
   );
