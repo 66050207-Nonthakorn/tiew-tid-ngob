@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 // Logging
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
+// app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 
 // Health Check
 app.get("/", (_, res) => {

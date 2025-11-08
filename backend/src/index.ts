@@ -1,4 +1,7 @@
-import "module-alias/register";
+if (process.env.NODE_ENV === "production") {
+  require("module-alias/register");
+}
+
 import app from "@/server";
 
 const port = process.env.PORT || 3000;

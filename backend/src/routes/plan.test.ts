@@ -25,6 +25,16 @@ jest.mock("@/config/database", () => ({
 // Get direct references to mocked functions
 const prismaMock = prisma as jest.Mocked<typeof prisma>;
 
+// Mock plan library (external helpers)
+jest.mock("@/lib/plan", () => ({
+  __esModule: true,
+  fetchNearbyPlaces: jest.fn(),
+  clusterLatLng: jest.fn(),
+  calculateRoute: jest.fn(),
+}));
+
+const planLib = require("@/lib/plan");
+
 describe("Plan Routes", () => {
   const mockUser = {
     id: "45f97f49-1666-47c8-99df-37e02f199793",
@@ -173,6 +183,7 @@ describe("Plan Routes", () => {
       endAt: "2025-11-06T20:00:00Z",
       places: [
         {
+          name: "test1234",
           googlePlaceId: "place-123",
           startAt: "2025-11-06T09:00:00Z",
           endAt: "2025-11-06T11:00:00Z",
@@ -242,6 +253,67 @@ describe("Plan Routes", () => {
         .send(invalidTripBody);
 
       expect(response.status).toBe(400);
+    });
+  });
+
+  describe("POST /plan/generate", () => {
+    it("should generate plans based on nearby places", async () => {
+      const mockPlaces = [
+        { displayName: "Place A", location: { latitude: 13.7563, longitude: 100.5018 } },
+        { displayName: "Place B", location: { latitude: 13.7570, longitude: 100.5025 } },
+      ];
+
+      // clusterLatLng returns clusters keyed by some id, values are arrays of points with original_index
+      const mockClusters = {
+        clusters: {
+          "0": [
+            { latitude: 13.7563, longitude: 100.5018, original_index: 0 },
+            { latitude: 13.7570, longitude: 100.5025, original_index: 1 },
+          ]
+        }
+      };
+
+      const mockComputedRoute = { legs: [{ distanceMeters: 100, duration: "5 mins" }] };
+
+      planLib.fetchNearbyPlaces.mockResolvedValue(mockPlaces);
+      planLib.clusterLatLng.mockResolvedValue(mockClusters);
+      planLib.calculateRoute.mockResolvedValue(mockComputedRoute);
+
+      const response = await request(app)
+        .post("/api/plan/generate")
+        .set("Authorization", `Bearer ${mockAuthToken}`)
+        .send({ price: 100, latitude: 13.7563, longitude: 100.5018 });
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('plans');
+      expect(Array.isArray(response.body.plans)).toBe(true);
+      expect(response.body.plans[0]).toHaveProperty('placeNames');
+      expect(response.body.plans[0].placeNames).toEqual(["Place A", "Place B"]);
+
+      // ensure helpers were called with expected args
+      expect(planLib.fetchNearbyPlaces).toHaveBeenCalled();
+      expect(planLib.clusterLatLng).toHaveBeenCalled();
+      expect(planLib.calculateRoute).toHaveBeenCalled();
+    });
+
+    it("should return 400 for invalid body", async () => {
+      const response = await request(app)
+        .post("/api/plan/generate")
+        .set("Authorization", `Bearer ${mockAuthToken}`)
+        .send({ latitude: 13.7 }); // missing price and longitude
+
+      expect(response.status).toBe(400);
+    });
+
+    it("should return 404 when no nearby places", async () => {
+      planLib.fetchNearbyPlaces.mockResolvedValue([]);
+
+      const response = await request(app)
+        .post("/api/plan/generate")
+        .set("Authorization", `Bearer ${mockAuthToken}`)
+        .send({ price: 100, latitude: 13.7563, longitude: 100.5018 });
+
+      expect(response.status).toBe(404);
     });
   });
 });
